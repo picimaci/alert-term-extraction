@@ -1,7 +1,12 @@
 import service.{ AlertTermMatchService, ApiService, ConfigService, FileService }
-import cats.syntax.traverse._
 import com.typesafe.scalalogging.Logger
 
+/**   - load application configuration containing information for calling apis and number of test runs
+  *   - fetch query terms
+  *   - fetch alerts the number of times defined in config
+  *   - check which alerts contain which query terms
+  *   - write results into files
+  */
 object Main extends App {
   val logger = Logger(getClass.getName)
 
