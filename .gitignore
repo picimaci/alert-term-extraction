@@ -5,4 +5,4 @@ target/
 application.conf
 .bsp
 
-extraction-results/
+extraction-result/

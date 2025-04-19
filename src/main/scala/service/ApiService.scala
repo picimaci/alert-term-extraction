@@ -1,5 +1,6 @@
 package service
 
+import cats.syntax.traverse._
 import com.typesafe.scalalogging.Logger
 import io.circe.parser.decode
 import model.{ Alert, QueryTerm }
@@ -26,14 +27,18 @@ object ApiService {
     }
   }
 
-  def getAlerts(url: String, apiKey: String): Either[String, Seq[Alert]] = {
-    logger.info("Fetching alerts")
+  private def getAlerts(url: String, apiKey: String): Either[String, Seq[Alert]] =
     for {
       apiResult <- sendRequest(url, apiKey)
       alerts    <- decode[Seq[Alert]](apiResult.body).handleErrors("decoding alerts")
-    } yield {
-      logger.info("Successfully fetched and parsed alerts")
-      alerts
+    } yield alerts
+
+  def getAlertsNTimes(url: String, apiKey: String, numberOfAlertsFetch: Int): Either[String, List[Seq[Alert]]] = {
+    val alertApiIterator = (1 to numberOfAlertsFetch).toList
+    logger.info(s"Alert api will be called $numberOfAlertsFetch times")
+    alertApiIterator.traverse(_ => ApiService.getAlerts(url, apiKey)).handleErrors("fetching alerts").map { res =>
+      logger.info(s"Successfully fetched alerts $numberOfAlertsFetch times")
+      res
     }
   }
 }

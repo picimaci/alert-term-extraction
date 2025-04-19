@@ -8,9 +8,7 @@ object Main extends App {
   for {
     appConf         <- ConfigService.loadAppConfig
     queryTerms      <- ApiService.getQueryTerms(appConf.queryTermUrl, appConf.apiKey)
-    alertApiIterator = (1 to appConf.numberOfAlertsFetch).toList
-    _                = logger.info(s"Alert api will be called ${appConf.numberOfAlertsFetch} times as per the app configuration")
-    alertsList      <- alertApiIterator.traverse(_ => ApiService.getAlerts(appConf.alertUrl, appConf.apiKey))
+    alertsList      <- ApiService.getAlertsNTimes(appConf.alertUrl, appConf.apiKey, appConf.numberOfAlertsFetch)
     matchResultsList = alertsList.map(alerts => AlertTermMatchService.findMatchingTermsForAlerts(queryTerms, alerts))
     _               <- FileService.saveResults(appConf.resultFolderName, matchResultsList)
   } yield logger.info(
