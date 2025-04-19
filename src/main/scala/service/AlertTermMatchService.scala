@@ -1,6 +1,6 @@
 package service
 
-import model.{ Alert, AlertTermMatchResult, Content, QueryTerm }
+import model.{ Alert, AlertTermMatchResult, Content, QueryTerm, QueryTermId }
 
 object AlertTermMatchService {
 
@@ -16,7 +16,7 @@ object AlertTermMatchService {
     }
   }
 
-  def findContainedTermIds(content: Content, terms: Seq[QueryTerm]): Seq[Int] =
+  def findContainedTermIds(content: Content, terms: Seq[QueryTerm]): Seq[QueryTermId] =
     terms
       .filter(_.language == content.language)
       .filter(term => contentContainsTerm(content, term))

@@ -1,6 +1,6 @@
 package model
 
 final case class AlertTermMatchResult(
-    alertId: String,
-    termIds: Set[Int]
+    alertId: AlertId,
+    termIds: Set[QueryTermId]
 )
