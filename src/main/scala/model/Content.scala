@@ -2,6 +2,6 @@ package model
 
 final case class Content(
     text: String,
-    `type`: String,
+    contentType: String,
     language: String
 )
