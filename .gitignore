@@ -1,0 +1,8 @@
+*.class
+*.log
+target/
+.idea/
+application.conf
+.bsp
+
+extraction-results/
