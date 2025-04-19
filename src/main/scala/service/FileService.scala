@@ -7,14 +7,12 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 
 object FileService {
-  private val resultFolderName = "extraction-results"
-
-  private def resetResultFolder: File                                = {
+  private def resetResultFolder(resultFolderName: String): File                                = {
     rm(file"$resultFolderName")
     mkdir(file"$resultFolderName")
   }
-  def saveResults(resultsList: Seq[Seq[AlertTermMatchResult]]): Unit = {
-    val dir = resetResultFolder
+  def saveResults(resultFolderName: String, resultsList: Seq[Seq[AlertTermMatchResult]]): Unit = {
+    val dir = resetResultFolder(resultFolderName)
     resultsList
       .map(_.asJson.toString)
       .zipWithIndex

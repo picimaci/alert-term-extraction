@@ -4,5 +4,6 @@ final case class AppConf(
     apiKey: String,
     alertUrl: String,
     queryTermUrl: String,
-    numberOfAlertsFetch: Int
+    numberOfAlertsFetch: Int,
+    resultFolderName: String
 )

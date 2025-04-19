@@ -8,5 +8,5 @@ object Main extends App {
     alertApiIterator = (1 to appConf.numberOfAlertsFetch).toList
     alertsList      <- alertApiIterator.traverse(_ => ApiService.getAlerts(appConf.alertUrl, appConf.apiKey))
     matchResultsList = alertsList.map(alerts => AlertTermMatchService.findMatchingTermsForAlerts(queryTerms, alerts))
-  } yield FileService.saveResults(matchResultsList)
+  } yield FileService.saveResults(appConf.resultFolderName, matchResultsList)
 }
