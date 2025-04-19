@@ -6,10 +6,12 @@ version := "1.0"
 scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
-  "org.scalatest"                 %% "scalatest"    % "3.2.19" % "test",
-  "com.softwaremill.sttp.client4" %% "core"         % "4.0.3",
-  "com.github.pureconfig"         %% "pureconfig"   % "0.17.8",
-  "com.github.pathikrit"          %% "better-files" % "3.9.2"
+  "org.scalatest"                 %% "scalatest"       % "3.2.19" % "test",
+  "com.softwaremill.sttp.client4" %% "core"            % "4.0.3",
+  "com.github.pureconfig"         %% "pureconfig"      % "0.17.8",
+  "com.github.pathikrit"          %% "better-files"    % "3.9.2",
+  "com.typesafe.scala-logging"    %% "scala-logging"   % "3.9.5",
+  "ch.qos.logback"                 % "logback-classic" % "1.3.5"
 )
 
 libraryDependencies ++= Seq(
