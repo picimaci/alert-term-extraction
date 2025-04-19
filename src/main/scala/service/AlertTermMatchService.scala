@@ -26,7 +26,7 @@ object AlertTermMatchService {
     alerts
       .map { alert =>
         val containedTermIds = alert.contents
-          .filter(_.`type` == "text")
+          .filter(_.contentType == "text")
           .flatMap(content => findContainedTermIds(content, terms))
           .toSet
         AlertTermMatchResult(alertId = alert.id, termIds = containedTermIds)
