@@ -1,4 +1,4 @@
-import service.{ AlertTermMatchService, ApiService, ConfigService }
+import service.{ AlertTermMatchService, ApiService, ConfigService, FileService }
 import cats.syntax.traverse._
 
 object Main extends App {
@@ -8,5 +8,5 @@ object Main extends App {
     alertApiIterator = (1 to appConf.numberOfAlertsFetch).toList
     alertsList      <- alertApiIterator.traverse(_ => ApiService.getAlerts(appConf.alertUrl, appConf.apiKey))
     matchResultsList = alertsList.map(alerts => AlertTermMatchService.findMatchingTermsForAlerts(queryTerms, alerts))
-  } yield {}
+  } yield FileService.saveResults(matchResultsList)
 }
