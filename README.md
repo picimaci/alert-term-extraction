@@ -37,9 +37,12 @@ To run tests, execute `sbt test` in project root folder.
     * both separate files and an aggregate could be useful in different scenarios, decided arbitrarily
 * project written in Scala 2 as that is what I'm most comfortable with
 
-## Future regards
+## Possible future improvements
 
 * even better matching for query terms
     * e.g. using regex to disregard punctuation
 * include previously non-used fields from the api in models if the need arises
+* if an api call fails
+  * retry api call a configurable number of times before declaring failure
+  * save partial results
 * upgrade to Scala 3
