@@ -8,6 +8,7 @@ import model.{ Alert, QueryTerm }
 import sttp.client4.DefaultFutureBackend
 import sttp.client4.{ quickRequest, Response, UriContext }
 import util.ErrorHandler._
+import util.EitherTHelper._
 
 import scala.concurrent.Future
 
@@ -25,8 +26,7 @@ object ApiService {
     logger.info("Fetching query terms")
     for {
       apiResult  <- EitherT(sendRequest(url, apiKey))
-      queryTerms <-
-        EitherT.fromEither[Future](decode[Seq[QueryTerm]](apiResult.body).handleErrors("decoding query terms"))
+      queryTerms <- decode[Seq[QueryTerm]](apiResult.body).handleErrors("decoding query terms").toEitherT
     } yield {
       logger.info("Successfully fetched and parsed query terms")
       queryTerms
@@ -36,7 +36,7 @@ object ApiService {
   private def getAlerts(url: String, apiKey: String): EitherT[Future, String, Seq[Alert]] =
     for {
       apiResult <- EitherT(sendRequest(url, apiKey))
-      alerts    <- EitherT.fromEither[Future](decode[Seq[Alert]](apiResult.body).handleErrors("decoding alerts"))
+      alerts    <- decode[Seq[Alert]](apiResult.body).handleErrors("decoding alerts").toEitherT
     } yield alerts
 
   def getAlertsNTimes(

@@ -1,8 +1,7 @@
-import cats.data.EitherT
 import service.{ AlertTermMatchService, ApiService, ConfigService, FileService }
 import com.typesafe.scalalogging.Logger
 
-import scala.concurrent.Future
+import util.EitherTHelper._
 
 /**   - load application configuration containing information for calling apis and number of test runs
   *   - fetch query terms
@@ -15,11 +14,11 @@ object Main extends App {
   val logger = Logger(getClass.getName)
 
   for {
-    appConf         <- EitherT.fromEither[Future](ConfigService.loadAppConfig)
+    appConf         <- ConfigService.loadAppConfig.toEitherT
     queryTerms      <- ApiService.getQueryTerms(appConf.queryTermUrl, appConf.apiKey)
     alertsList      <- ApiService.getAlertsNTimes(appConf.alertUrl, appConf.apiKey, appConf.numberOfAlertsFetch)
     matchResultsList = alertsList.map(alerts => AlertTermMatchService.findMatchingTermsForAlerts(queryTerms, alerts))
-    _               <- EitherT.fromEither[Future](FileService.saveResults(appConf.resultFolderName, matchResultsList))
+    _               <- FileService.saveResults(appConf.resultFolderName, matchResultsList).toEitherT
   } yield logger.info(
     s"Successfully matched alerts and query terms, results can be viewed in folder '${appConf.resultFolderName}'"
   )
