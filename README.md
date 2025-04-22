@@ -46,3 +46,4 @@ To run tests, execute `sbt test` in project root folder.
   * retry api call a configurable number of times before declaring failure
   * save partial results
 * upgrade to Scala 3
+* write more automated tests
